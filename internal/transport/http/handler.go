@@ -28,6 +28,17 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
+// jsonResponse renders json response
+func jsonResponse(w http.ResponseWriter, status int, message string, data interface{}) {
+	if err := json.NewEncoder(w).Encode(Response{
+		Status:  status,
+		Message: message,
+		Data:    data,
+	}); err != nil {
+		panic(err)
+	}
+}
+
 // New creates a new HTTP handler
 func New(appConfig *config.AppConfig) *Handler {
 	log.Info("Creating new http service")
