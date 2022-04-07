@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Shambou/todolist/internal/config"
+	"github.com/Shambou/todolist/internal/models"
 	"github.com/Shambou/todolist/internal/repository"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,6 +16,7 @@ type PostgresDBRepo struct {
 	DB  *gorm.DB
 }
 
+// NewPostgresRepo creates a new postgres db repo
 func NewPostgresRepo(a *config.AppConfig) repository.DatabaseRepo {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
@@ -27,6 +29,9 @@ func NewPostgresRepo(a *config.AppConfig) repository.DatabaseRepo {
 	)
 
 	conn, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	// auto migrations
+	_ = conn.AutoMigrate(&models.TodoItem{})
 
 	return &PostgresDBRepo{
 		App: a,
