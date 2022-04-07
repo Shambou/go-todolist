@@ -28,6 +28,7 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
+// New creates a new HTTP handler
 func New(appConfig *config.AppConfig) *Handler {
 	log.Info("Creating new http service")
 
@@ -51,10 +52,7 @@ func New(appConfig *config.AppConfig) *Handler {
 	return h
 }
 
-func (h *Handler) MapRoutes() {
-	h.Router.HandleFunc("/healthz", h.Healthz).Methods("GET")
-}
-
+// Healthz returns the health of the service
 func (h *Handler) Healthz(w http.ResponseWriter, r *http.Request) {
 	log.Info("API Health is OK")
 	w.Header().Set("Content-Type", "application/json")
