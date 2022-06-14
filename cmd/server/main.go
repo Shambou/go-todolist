@@ -11,8 +11,6 @@ import (
 
 var app config.AppConfig
 
-// var session *scs.SessionManager
-
 func Run() error {
 	log.SetFormatter(&log.TextFormatter{})
 	log.SetReportCaller(true)
